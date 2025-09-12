@@ -15,8 +15,6 @@ function TaskSubtasks({ subtasks, onChange, onSave }) {
   const [localSubs, setLocalSubs] = useState([]);
   const [hasChanges, setHasChanges] = useState(false);
 
-  const completedCount = localSubs.filter((s) => s.completed).length;
-
  useEffect(() => {
     setLocalSubs(subtasks);
     setHasChanges(false); // reset change state when subtasks prop changes
@@ -40,7 +38,7 @@ function TaskSubtasks({ subtasks, onChange, onSave }) {
           {/* Icon + text */}
           <Flex align="center">
             <FaArrowDown />
-            <Text ml={1}> {completedCount} / {subtasks.length} Subtarefas</Text>
+            <Text ml={1}>{subtasks.length} Subtarefas</Text>
           </Flex>
 
           {/* Save button, only if there are changes */}

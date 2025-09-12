@@ -2,8 +2,9 @@ import { Flex, Button, HStack, Heading, Box } from "@chakra-ui/react";
 import { FaTasks } from "react-icons/fa";
 import { BiTask } from "react-icons/bi";
 import { IoPersonSharp } from "react-icons/io5";
+import { Link } from "react-router-dom"
 
-function Footer() {
+function Header() {
   return (
     <Flex
       as="header"
@@ -29,13 +30,39 @@ function Footer() {
         p={2}
       >
     <HStack wrap="wrap" gap="4">
-      <Button colorPalette="pink" color="pink.600" variant="outline"> <FaTasks /> Tarefas </Button>
-      <Button colorPalette="pink" color="pink.600" variant="outline"> <BiTask /> Tarefas Completas</Button>
-      <Button colorPalette="pink" color="pink.600" variant="outline"> <IoPersonSharp /> Sobre</Button>
-    </HStack>
+          <Button
+            as={Link}
+            to="/"
+            colorPalette="pink"
+            color="pink.600"
+            variant="outline"
+          >
+            <FaTasks /> Tarefas
+          </Button>
+
+          <Button
+            as={Link}
+            to="/tarefas-completas"
+            colorPalette="pink"
+            color="pink.600"
+            variant="outline"
+          >
+            <BiTask /> Tarefas Completas
+          </Button>
+
+          <Button
+            as={Link}
+            to="/sobre"
+            colorPalette="pink"
+            color="pink.600"
+            variant="outline"
+          >
+            <IoPersonSharp /> Sobre
+          </Button>
+        </HStack>
       </Box>
     </Flex>
   );
 }
 
-export default Footer;
+export default Header;

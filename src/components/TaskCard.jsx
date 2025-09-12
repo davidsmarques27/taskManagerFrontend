@@ -10,19 +10,15 @@ import {
   Portal,
 } from "@chakra-ui/react";
 import { FiFolder, FiUser, FiBriefcase } from "react-icons/fi";
-import { FaTrash } from "react-icons/fa";
+import { FaTrash, FaPencilAlt } from "react-icons/fa";
 import TaskSubtasks from "../components/TaskSubtasks";
 import { useTasks } from "../hooks/useTasks";
 import { Toaster, toaster } from "@/components/ui/toaster";
-import DialogTask from "../components/DialogTask";
 
 function TaskCard({ task }) {
   const { deleteMutation, updateMutation } = useTasks();
   const [updatedSubs, setUpdatedSubs] = useState([]);
   const [showSave, setShowSave] = useState(false);
-
-  const isTaskComplete = task.subtasks?.length > 0 && 
-    task.subtasks.every((s) => s.completed);
 
   const categoryIcon = (category) => {
     switch (category) {
@@ -57,11 +53,13 @@ function TaskCard({ task }) {
 
   const handleSave = () => {
     const updatedTask = { ...task, subtasks: updatedSubs };
+
     updateMutation.mutate(
       { id: task.id, task: updatedTask },
       {
         onSuccess: () => {
-          setShowSave(false);
+          console.log("Success");
+          setShowSave(false); // hide button
           toaster.success({
             title: "Gravado com Sucesso",
           });
@@ -76,10 +74,8 @@ function TaskCard({ task }) {
   return (
     <Box w="40%" p={4} borderRadius="md" bg="gray.800" color="white" mb={4}>
       <HStack justify="space-between" mb={2}>
-        <Text fontWeight="bold" color={isTaskComplete ? "green.400" : "white"}>
-          {task.title}
-        </Text>
-        <Badge mr={3} size="md" colorPalette={priorityColorScheme(task.priority)}>
+        <Text fontWeight="bold">{task.title}</Text>
+        <Badge mr={3} colorPalette={priorityColorScheme(task.priority)}>
           {task.priority}
         </Badge>
       </HStack>
@@ -87,11 +83,7 @@ function TaskCard({ task }) {
       {task.description && <Text mb={2}>{task.description}</Text>}
 
       {/* Subtasks */}
-      <TaskSubtasks
-        subtasks={task.subtasks}
-        onChange={handleSubtasksChange}
-        onSave={handleSave}
-      />
+      <TaskSubtasks subtasks={task.subtasks} onChange={handleSubtasksChange} onSave={handleSave}/>
 
       <HStack justify="space-between" mb={2}>
         <HStack>
@@ -105,11 +97,16 @@ function TaskCard({ task }) {
             </Text>
           )}
         </HStack>
-        <HStack>
-          <DialogTask task={task} mutation={updateMutation} />
+
+          
+<Button ml={2} colorPalette="red" variant="outline" color="red.800">
+              {" "}
+              <FaPencilAlt />
+            </Button>
         <Dialog.Root>
           <Dialog.Trigger asChild>
             <Button ml={2} colorPalette="red" variant="outline" color="red.800">
+              {" "}
               <FaTrash />
             </Button>
           </Dialog.Trigger>
@@ -129,7 +126,7 @@ function TaskCard({ task }) {
                   <Dialog.ActionTrigger asChild>
                     <Button variant="outline">Cancelar</Button>
                   </Dialog.ActionTrigger>
-                  <Button colorPalette="red"
+                  <Button
                     onClick={() =>
                       deleteMutation.mutate(task.id, {
                         onSuccess: () => {
@@ -148,7 +145,7 @@ function TaskCard({ task }) {
                     }
                     isLoading={deleteMutation.isPending}
                   >
-                    Eliminar
+                    Sim
                   </Button>
                 </Dialog.Footer>
                 <Dialog.CloseTrigger asChild>
@@ -158,7 +155,6 @@ function TaskCard({ task }) {
             </Dialog.Positioner>
           </Portal>
         </Dialog.Root>
-        </HStack>
       </HStack>
       {/* Subtasks inside Collapsible */}
       <Toaster />
