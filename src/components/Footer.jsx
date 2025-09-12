@@ -5,8 +5,8 @@ function Footer() {
     <Flex
       as="footer"
       p={2}
-      bg="blue.700"
-      color="white"
+      bg="gray.50"
+      color="black"
       justify="center"
       align="center"
       mt={8}

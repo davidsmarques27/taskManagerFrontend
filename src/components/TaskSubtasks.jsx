@@ -4,8 +4,7 @@ import {
   VStack,
   Flex,
   Collapsible,
-  Checkbox,
-  Button
+  Button,
 } from "@chakra-ui/react";
 import { FaArrowDown } from "react-icons/fa";
 import { useState, useEffect } from "react";
@@ -19,7 +18,7 @@ function TaskSubtasks({ subtasks, onChange, onSave }) {
 
  useEffect(() => {
     setLocalSubs(subtasks);
-    setHasChanges(false); // reset change state when subtasks prop changes
+    setHasChanges(false); 
   }, [subtasks]);
 
   const toggleSubtask = (id) => {
@@ -28,7 +27,7 @@ function TaskSubtasks({ subtasks, onChange, onSave }) {
     );
     setLocalSubs(updated);
     onChange(updated);
-    setHasChanges(true); // mark changes
+    setHasChanges(true);
   };
 
   if (!subtasks || subtasks.length === 0) return null;
@@ -37,13 +36,11 @@ function TaskSubtasks({ subtasks, onChange, onSave }) {
     <Collapsible.Root py={2} px={4}>
       <Collapsible.Trigger fontWeight="bold">
         <Flex w="100%" align="center" justify="space-between">
-          {/* Icon + text */}
           <Flex align="center">
             <FaArrowDown />
             <Text ml={1}> {completedCount} / {subtasks.length} Subtarefas</Text>
           </Flex>
 
-          {/* Save button, only if there are changes */}
           {hasChanges && (
             <Button
               size="xs"
@@ -61,7 +58,7 @@ function TaskSubtasks({ subtasks, onChange, onSave }) {
       <Collapsible.Content px={4}>
         <VStack spacing={2} align="start" mt={2}>
           {localSubs.map((sub) => {
-            const inputId = `cbx-${sub.id}`; // unique id for each checkbox
+            const inputId = `cbx-${sub.id}`;
             return (
               <Box
                 key={sub.id}
@@ -71,7 +68,6 @@ function TaskSubtasks({ subtasks, onChange, onSave }) {
                 cursor="pointer"
                 gap={2}
               >
-                {/* Hidden checkbox */}
                 <input
                   id={inputId}
                   type="checkbox"
@@ -79,8 +75,6 @@ function TaskSubtasks({ subtasks, onChange, onSave }) {
                   onChange={() => toggleSubtask(sub.id)}
                   style={{ display: "none" }}
                 />
-
-                {/* Custom SVG checkbox */}
                 <Box
                   as="span"
                   width="18px"
@@ -90,7 +84,7 @@ function TaskSubtasks({ subtasks, onChange, onSave }) {
                   display="flex"
                   alignItems="center"
                   justifyContent="center"
-                  bg={sub.completed ? "blue.500" : "transparent"}
+                  bg={sub.completed ? "transparent" : "transparent"}
                   transition="all 0.2s"
                 >
                   {sub.completed && (

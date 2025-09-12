@@ -1,65 +1,70 @@
-import { Flex, Button, HStack, Heading, Box } from "@chakra-ui/react";
-import { FaTasks } from "react-icons/fa";
+import {
+  Flex,
+  Button,
+  HStack,
+  Heading,
+  Input,
+  InputGroup,
+  Box,
+} from "@chakra-ui/react";
+import { FaTasks, FaSearch } from "react-icons/fa";
 import { BiTask } from "react-icons/bi";
 import { IoPersonSharp } from "react-icons/io5";
-import { Link } from "react-router-dom"
+import { Link, useLocation } from "react-router-dom";
 
-function Header() {
+function Header({ search, setSearch }) {
+  const location = useLocation();
+  const showSearch =
+    location.pathname === "/" || location.pathname === "/tarefas-completas";
+
   return (
     <Flex
       as="header"
+      position="fixed"
+      top="0"
+      left="0"
+      w="100%"
+      zIndex="1000"
       p={6}
-      bg="ref.400"
       color="white"
       align="center"
-      gap={4}
-      position="relative"
+      bg="gray.950"
+      justify="space-between"
     >
-      <Heading size="xl">Gestor de Tarefas</Heading>
+      <Box flex="1">
+        <Heading size="xl">Gestor de Tarefas</Heading>
+      </Box>
 
-      <Box
-        position="absolute"
-        left="50%"
-        transform="translateX(-50%)"
-        display="flex"
-        gap={2}
-        bg="fg.disabled"
-        borderWidth="1px"
-        borderColor="blue.700"
-        borderRadius={10}
-        p={2}
-      >
-    <HStack wrap="wrap" gap="4">
-          <Button
-            as={Link}
-            to="/"
-            colorPalette="pink"
-            color="pink.600"
-            variant="outline"
-          >
-            <FaTasks /> Tarefas
-          </Button>
+      <HStack spacing={4} flex="1" justify="center">
+        <Button as={Link} to="/" variant="outline" colorScheme="pink">
+          <FaTasks /> Tarefas
+        </Button>
+        <Button
+          as={Link}
+          to="/tarefas-completas"
+          variant="outline"
+          colorScheme="pink"
+        >
+          <BiTask /> Tarefas Completas
+        </Button>
+        <Button as={Link} to="/sobre" variant="outline" colorScheme="pink">
+          <IoPersonSharp /> Sobre
+        </Button>
+      </HStack>
 
-          <Button
-            as={Link}
-            to="/tarefas-completas"
-            colorPalette="pink"
-            color="pink.600"
-            variant="outline"
-          >
-            <BiTask /> Tarefas Completas
-          </Button>
-
-          <Button
-            as={Link}
-            to="/sobre"
-            colorPalette="pink"
-            color="pink.600"
-            variant="outline"
-          >
-            <IoPersonSharp /> Sobre
-          </Button>
-        </HStack>
+      <Box flex="1" display="flex" justifyContent="flex-end">
+        {showSearch && (
+          <InputGroup maxW="sm" startElement={<FaSearch />}>
+            <Input
+              placeholder="Pesquisar tarefas..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              bg="gray.700"
+              color="white"
+              size="sm"
+            />
+          </InputGroup>
+        )}
       </Box>
     </Flex>
   );
